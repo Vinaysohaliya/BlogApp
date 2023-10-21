@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { addPost } from '../redux/blogSlice.js'; // Import your Redux slice
+import { addPost } from '../redux/blogSlice.js'; 
 import { useState } from 'react';
 
 function CreateBlog() {
