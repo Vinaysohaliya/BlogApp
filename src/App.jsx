@@ -6,6 +6,7 @@ import Signin from './Pages/Signin'
 import Signup from './Pages/Signup'
 import CreateBlog from './Pages/createBlog'
 import AllPosts from './Pages/AllPosts'
+import BlogPost from './Pages/components/BlogPost'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
 
         <Route path="/posts" element={<AllPosts />} />
         <Route path="/write" element={<CreateBlog />} />
+        <Route path="/BlogPost" element={<BlogPost />} />
       </Routes>
     </>
   )
