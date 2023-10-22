@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getAuth } from "firebase/auth";
-import { addDoc, arrayUnion, collection, doc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
+import { addDoc, arrayUnion, collection, doc, getDocs, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { getFirestore } from 'firebase/firestore';
 import { toast } from 'react-hot-toast';
 
 const initialState = {
   posts: [],
+  userData: {},
 }
 
 export const fetchPosts = createAsyncThunk('items/fetchItems', async (_, { rejectWithValue }) => {
@@ -21,6 +22,29 @@ export const fetchPosts = createAsyncThunk('items/fetchItems', async (_, { rejec
   }
 });
 
+// export const fetchUserData = createAsyncThunk('items/userData', async (_, { rejectWithValue }) => {
+//   try {
+//     const db = getFirestore();
+//     const usersCollection = collection(db, 'users');
+//     const auth = getAuth();
+
+//     const user = auth.currentUser;
+//     // Create a query to find the user by UID
+//     const q = query(usersCollection, where('uid', '==', user.uid));
+//     const querySnapshot = await getDocs(q);
+//     console.log("fsffsfsfsfsf");
+//     if (!querySnapshot.empty) {
+//       // Assuming there's only one user with the provided UID (unique UID)
+//       const userDoc = querySnapshot.docs[0];
+//       const userData = { id: userDoc.id, ...userDoc.data() };
+//       return userData;
+//     } else {
+//       return rejectWithValue('User not found');
+//     }
+//   } catch (error) {
+//     return rejectWithValue('Failed to fetch user data');
+//   }
+// });
 
 export const addPost = createAsyncThunk('blog/addPost', async (postData) => {
   try {
@@ -41,11 +65,14 @@ export const addPost = createAsyncThunk('blog/addPost', async (postData) => {
       await setDoc(allPostsRef, {
         title: postData.title,
         text: postData.text,
+        // auther:.name,
       });
 
-      const res = await updateDoc(docRef, {
+      const userDocRef = doc(db, 'users', user.uid);
+      await updateDoc(userDocRef, {
         posts: arrayUnion(docRef.id),
       });
+
       toast.success("Blog Added Succesfully")
 
     }
@@ -69,13 +96,14 @@ const blogSlice = createSlice({
       .addCase(addPost.fulfilled, (state, action) => {
         state.posts.push(action.payload);
       })
-      .addCase(addPost.rejected, (state, action) => {
-      })
-      .addCase(fetchPosts.fulfilled,(state,action)=>{
-        state.posts=action.payload;
+      // .addCase(fetchUserData.fulfilled, (state, action) => {
+      //   state.userData = action.payload;
+      // })
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        state.posts = action.payload;
         console.log(state.posts);
       })
-      
+
   },
 });
 

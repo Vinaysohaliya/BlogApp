@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
-import { addPost } from '../redux/blogSlice.js'; 
-import { useState } from 'react';
+import { addPost, fetchPosts,  } from '../redux/blogSlice.js'; 
+import { useEffect, useState } from 'react';
 
 function CreateBlog() {
   const dispatch = useDispatch();
@@ -24,11 +24,21 @@ function CreateBlog() {
     dispatch(addPost(blogData))
       .then(() => {
         console.log('Blog post added successfully');
+        dispatch(fetchPosts());
       })
       .catch((error) => {
         console.error('Error adding blog post:', error);
       });
   };
+
+  // useEffect(() => {
+  //   const dispatch = useDispatch();
+  //   // dispatch(fetchUserData);
+  //   console.log(user);
+  
+    
+  // }, [])
+  
 
   return (
     <div>

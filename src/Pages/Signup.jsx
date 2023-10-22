@@ -9,6 +9,7 @@ const Signup = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +24,7 @@ const Signup = () => {
 
       // Create a document in the 'users' collection with the user's UID as the document ID
       const userDocRef = doc(db, "users", user.uid);
-      await setDoc(userDocRef, { email: email }); // Set user data
+      await setDoc(userDocRef, { email: email,name:name }); // Set user data
 
       console.log('Document written with ID: ', userDocRef.id);
       navigate('/signin');
@@ -41,6 +42,17 @@ const Signup = () => {
           <div>
             <h1>FocusApp</h1>
             <form>
+            <div>
+                <label htmlFor="name">Name</label>
+                <input
+                  type="name"
+                  label="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  placeholder="Full Name"
+                />
+              </div>
               <div>
                 <label htmlFor="email-address">Email address</label>
                 <input
