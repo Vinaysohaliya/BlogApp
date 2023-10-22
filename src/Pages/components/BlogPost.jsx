@@ -11,7 +11,7 @@ function BlogPost() {
     <div>
       <h2>Received Data:</h2>
       <pre>{receivedData[0]}</pre>
-      <pre>{receivedData[1  ]}</pre>
+      <pre>{receivedData[1]}</pre>
     </div>
   );
 }

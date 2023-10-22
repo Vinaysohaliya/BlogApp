@@ -8,6 +8,7 @@ import { toast } from 'react-hot-toast';
 const initialState = {
   posts: [],
   userData: {},
+  isLogddin:false,
 }
 
 export const fetchPosts = createAsyncThunk('items/fetchItems', async (_, { rejectWithValue }) => {
@@ -45,6 +46,8 @@ export const fetchPosts = createAsyncThunk('items/fetchItems', async (_, { rejec
 //     return rejectWithValue('Failed to fetch user data');
 //   }
 // });
+
+
 
 export const addPost = createAsyncThunk('blog/addPost', async (postData) => {
   try {
